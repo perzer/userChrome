@@ -1,0 +1,9 @@
+*:not([class*="icon"]):not(i){font-family: "Tahoma","Microsoft YaHei","simsun"  !important;}
+span.fui-logo-text{font-family: "IterCast-Icon"  !important;}
+span.diffstat-bar{font-family: "octicons"  !important;}
+span.diff-added{font-family: "octicons"  !important;}
+#indexbutton{font-family: "html5test"  !important;}
+.toolbox ins a{font-family: "2345"  !important;}
+.tool_ul li a ins{font-family: "2345"  !important;}
+.panel ins a{font-family: "2345"  !important;}
+span.nba_matchnav_score{font-family: "SimSun"  !important;}

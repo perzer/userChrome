@@ -1,4 +1,4 @@
-userChrome.js
+userChrome
 =============
 
-userChrome.js backup
+Firefox userChrome config.
