@@ -5,7 +5,7 @@
 // @include         chrome://browser/content/browser.xul
 // @author          harv.c
 // @homepage        http://haoutil.tk
-// @version         1.5.0.22
+// @version         1.5.1.23
 // @updateUrl       https://j.mozest.com/zh-CN/ucscript/script/92.meta.js
 // @downloadUrl     https://j.mozest.com/zh-CN/ucscript/script/92.uc.js
 // @updateURL     https://j.mozest.com/ucscript/script/92.meta.js
@@ -13,60 +13,67 @@
 (function() {
     // YoukuAntiADs, request observer
     function YoukuAntiADs() {};
+	
+	var refD = 'file:///' + Components.classes['@mozilla.org/file/directory_service;1'].getService(Components.interfaces.nsIProperties).get("ProfD", Components.interfaces.nsILocalFile).path + '/chrome/swf/';
+	
     YoukuAntiADs.prototype = {
         SITES: {
             'youku_loader': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/loader.swf',
+                'player': refD + 'loader.swf',
                 're': /http:\/\/static\.youku\.com(\/v[\d\.]+)?\/v\/swf\/loader\.swf/i
             },
             'youku_player': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/player.swf',
+                'player': refD + 'player.swf',
                 're': /http:\/\/static\.youku\.com(\/v[\d\.]+)?\/v\/swf\/q?player[^\.]*\.swf/i
             },
             'ku6': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/ku6.swf',
+                'player': refD + 'ku6.swf',
                 're': /http:\/\/player\.ku6cdn\.com\/default\/common\/player\/\d{12}\/player\.swf/i
             },
             'ku6_out': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/ku6_out.swf',
+                'player': refD + 'ku6_out.swf',
                 're': /http:\/\/player\.ku6cdn\.com\/default\/out\/\d{12}\/player\.swf/i
             },
             'iqiyi': {
-                'player0': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/iqiyi_out.swf',
-                'player1': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/iqiyi5.swf',
-                'player2': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/iqiyi.swf',
+                'player0': refD + 'iqiyi_out.swf',
+                'player1': refD + 'iqiyi5.swf',
+                'player2': refD + 'iqiyi.swf',
                 're': /http:\/\/www\.iqiyi\.com\/player\/\d+\/player\.swf/i
             },
             'tudou': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/tudou.swf',
+                'player': refD + 'tudou.swf',
                 're': /http:\/\/js\.tudouui\.com\/.*portalplayer[^\.]*\.swf/i
             },
             'tudou_olc': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/olc_8.swf',
+                'player': refD + 'olc_8.swf',
                 're': /http:\/\/js\.tudouui\.com\/.*olc[^\.]*\.swf/i
             },
             'tudou_sp': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/sp.swf',
+                'player': refD + 'sp.swf',
                 're': /http:\/\/js\.tudouui\.com\/.*\/socialplayer[^\.]*\.swf/i
             },
             'letv': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/letv.swf',
-                're': /http:\/\/.*letv[\w]*\.com\/.*\/(?!(Live|seed))(S[\w]{2,3})?[\w]{4}Player[^\.]*\.swf/i
+                'player': refD + 'letv.swf',
+                're': /http:\/\/.*letv[\w]*\.com\/(hz|.*\/(?!(Live|seed))(S[\w]{2,3})?[\w]{4})Player[^\.]*\.swf/i
+            },
+            'letvskin': {
+                'player': 'http://player.letvcdn.com/p/201403/05/1456/newplayer/1/SLetvPlayer.swf',
+                're': /http:\/\/.*letv[\w]*\.com\/(hz|.*\/(?!(Live|seed))(S[\w]{2,3})?[\w]{4})Player[^\.]*\.swf/i
             },
             'pplive': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/pplive.swf',
+                'player': refD + 'pplive.swf',
                 're': /http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf/i
             },
             'pplive_live': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/pplive_live.swf',
+                'player': refD + 'pplive_live.swf',
                 're': /http:\/\/player\.pplive\.cn\/live\/.*\/player4live2\.swf/i
             },
             'sohu': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/sohu.swf',
+                'player': refD + 'sohu.swf',
                 're': /http:\/\/tv\.sohu\.com\/upload\/swf(\/p2p(\/yc)?)?\/\d+\/(main|playershell)\.swf/i
             },
             'pps': {
-                'player': 'https://haoutil.googlecode.com/svn/trunk/player/testmod/pps.swf',
+                'player': refD + 'pps.swf',
                 're': /http:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf/i
             }
         },
