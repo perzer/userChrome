@@ -6,6 +6,7 @@
 // @author          harv.c
 // @homepage        http://haoutil.tk
 // @version         1.5.1.23
+// @note			2014/05/07 使用本地播放器 by perzer
 // @updateUrl       https://j.mozest.com/zh-CN/ucscript/script/92.meta.js
 // @downloadUrl     https://j.mozest.com/zh-CN/ucscript/script/92.uc.js
 // @updateURL     https://j.mozest.com/ucscript/script/92.meta.js
