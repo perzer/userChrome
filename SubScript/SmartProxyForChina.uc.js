@@ -5,9 +5,12 @@
 // @namespace      lidanny2012/smartproxy@gmail.com
 // @include        main
 // @license        MIT License
-// @compatibility  Firefox 13-21
+// @compatibility  Firefox 13-29
 // @charset        UTF-8
-// @version        1.1.0.7
+// @version        1.2.1.9
+// @note           1.2.1 2014/05/07 修改为左键切换代理，右键设置 by perzer
+// @note           1.2.1 2014/04/26 findbar is back, bugs is fixed by ABP2.6
+// @note           1.2.0 2014/04/11 Modify for FF29's AddonbarforUC.uc.js
 // @note           1.1.0 2014/02/14 Fixed for FF27 ,cancel finderbar
 // @note           1.0.9 2014/01/15 更新订阅后自动载入并保存，全局代理不再匹配规则
 // @note           1.0.8.5 2013/9/16 修复bug
@@ -144,15 +147,17 @@ window.SmartProxy = {
                  xmlns:html="http://www.w3.org/1999/xhtml"> \
             <toolbarpalette id="addon-bar">\
                  <toolbarbutton id="SmartProxy-button" label="SmartProxy" \
-                               class="toolbarbutton-1 chromeclass-toolbar-additional" context="SmartProxy-popup" removable="true"\
-                               state="disabled" tooltiptext="代理状态:" onclick="SmartProxy.iconclick(event);">\
+                               class="toolbarbutton-1 chromeclass-toolbar-additional" removable="true"\
+                               image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACxElEQVQ4jY3RTUiTARgHcClCUwfT2d5NOygsETIPLTMonZvOTW225dT8wnSY22rzY9jM+fGaWqgZghCIhFF6CUqd+urUuVz5gS3nNqeFNDp0meQxqEj+HUSlw8r/+fn/eHgePz8fsdksYS6Xi/B4PITX6yG8Xi/h9XoJj8dDeFwuwrW8TJAkecxX3+/FQP92d2c7ujvb8aijDR0PWnCfrEe9vgbVlWo8bGuGxTQe6xN43Nm+XaVVoVKjxG1VOcoVJSgqzIVUKoFQmApFWTFmJkbO+QTaWxu3CwtyUJAvR17udUilEqSni8Dn83Gey4VMlvVvoMmg3xamCSEUpkIgEOBiQgLOxsaCw+Eg4nQEJFcz9gCrdYptX1lQO+zL6nWHTb31aV39eWtD3dPdsdPSXP9dX1v1Mzv7GlhsFpgEE2GnwsBghCIjQ7wHTFNGXq1OiyqtCto7FVApFSgrLUL+DTkkkkykpKagUqMEjUZDcHAwgoICERh4EmKx6BCo1CihUipQcasUirJiFBXmQibLgkiUhsSkJDQ36NFkuAtDnQ5kYx3Ixjr09nQdAmWlRcjOvgaZLAsSSSbEYhEEAgEuxMeDw+Gg4Z5uZ2ZydHdwoH/INPYqz2ZbjLFYTDF9fX0n/KYpI08ulyKZn4zLiVcQFxeH6OhoREZFgh3OBovNQitpwOCzfsxOGWE1U7sD/U8uHVx7mjLyxGIROGc4YIezwSSYYDBCERIaAjqdDjqdjnp99deh509vmqgReW9vV9Rf75qmjLwkHu+gQKPRDg4VEBAAf39/6Go0bp//njMNc62WSefK4hunc+29c9Nt//Jxw/Ft073mXLUtOhets06rmRr2CexndnaUmJ+huqxmyrG8YPllNo29nrdMlvy3eLjJONftWrWvfVj6PT8zsbv0bu6Hbent0JGB/bzMyTneR5KBR53/A0SneonKm1KCAAAAAElFTkSuQmCC" \
+                               context="SmartProxy-popup" state="disabled" tooltiptext="代理状态:" onclick="SmartProxy.iconclick(event);">\
                    <menupopup id="SmartProxy-popup" onpopupshowing="SmartProxy.setpopupenabled(event);">\
                      <menuitem id="siteProxyOn" label="对%s启用代理" hidden="true" onclick="SmartProxy.setUrlproxy(event);"/>\
                      <menuitem id="reportgfwlist" label="向\'哥扶我\'报告本站问题" onclick="SmartProxy.commandreport();"/>\
                      <menu label="默认代理服务器" id="DefaultProxyID">\
                        <menupopup id="sp-popup" />\
                      </menu>\
-					 <menuitem id="SmartProxy-settings" label="SmartProxy 首选项" onclick="SmartProxy.settings(event);"/>\                   </menupopup>\
+                     <menuitem id="SmartProxy-settings" label="SmartProxy 首选项" onclick="SmartProxy.settings(event);"/>\
+                   </menupopup>\
                  </toolbarbutton>\
             </toolbarpalette>\
             <vbox id="appcontent">\
@@ -168,6 +173,7 @@ window.SmartProxy = {
  			              <spacer flex="1" />\
  			              <label value="规则主页" max-width="40" class="actionbtn" onclick="SmartProxy.loadGFWurl();"/>\
  			              <spacer flex="1" />\
+ 			              <toolbarbutton id="SPfindButton" class="actiontoolbtn" label="查找" width="40" oncommand="SmartProxy.EID(\'findbar\').startFind(SmartProxy.EID(\'findbar\').FIND_NORMAL)"/>\
                     <toolbarbutton id="SPfilterActionButton" type="menu" width="45" class="actiontoolbtn" label="动作">\
                       <menupopup id="SPfilterActionMenu" onpopupshowing="SmartProxy.FilterActions.fillActionsPopup();">\
                         <menuitem id="SPfilters-edit-command" label="编辑" oncommand="SmartProxy.FilterActions.startEditing();"/>\
@@ -190,6 +196,7 @@ window.SmartProxy = {
                     </treecols>\
                     <treechildren id="SPfiltersTreeChildren" oncontextmenu="SmartProxy.SPfilterActionMenu.openPopupAtScreen(event.screenX, event.screenY, true);"/>\
                   </tree>\
+                  <findbar id="findbar"/>\
              	  </groupbox>\
                 </vbox>\
                 <vbox id="sp-contents" width="40%">\
@@ -230,6 +237,12 @@ window.SmartProxy = {
               </vbox>\
             </vbox>\
         </overlay>';
+        if (getFoxVer() >= 29) {
+      	  if (window.UCADDONBAR)
+      	    overlay.replace('<toolbarpalette id="addon-bar">', '<toolbarpalette id="UC-addon-bar">');
+      	  else
+      	  	overlay.replace('<toolbarpalette id="addon-bar">', '<toolbarpalette id="nav-bar">');
+    	  }
         overlay = "data:application/vnd.mozilla.xul+xml;charset=utf-8," + encodeURI(overlay);
         window.userChrome_js.loadOverlay(overlay, SmartProxy);
         SmartProxy.style = addStyle(css);
@@ -249,7 +262,7 @@ window.SmartProxy = {
       		this._addSVRlist();
       		this.loadSPjson();
       		SmartProxy.FilterActions.init();
-      		//SmartProxy.FilterSearch.init();
+      		SmartProxy.FilterSearch.init();
       		if (!SmartProxy.Proxy.isRegisted)
       		SmartProxy.Proxy.init();
         }
@@ -329,8 +342,7 @@ window.SmartProxy = {
   },
   
   updatetips: function(){
-  	if (this.icon.state != this.Prefs.proxyMode)
-      this.icon.setAttribute("state", this.Prefs.proxyMode);
+  	this.updateicon(this.Prefs.proxyMode);
 	  if (this.Prefs.proxyMode == this.mode[0])
   	  this.icon.setAttribute("tooltiptext", "代理状态: 无");
     else if (this.Prefs.proxyMode == this.mode[1])
@@ -339,6 +351,22 @@ window.SmartProxy = {
     	this.icon.setAttribute("tooltiptext", "代理状态: 全局代理 \n " + this.formattiptext());
     //this.showMsg(this.icon.getAttribute("tooltiptext") + " " + this.formattiptext());
     this.showMsg(this.icon.getAttribute("tooltiptext"));
+  },
+  
+  updateicon: function(proxyMode){
+  	switch (proxyMode) {
+      case "disabled" :
+      this.icon.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACxElEQVQ4jY3RTUiTARgHcClCUwfT2d5NOygsETIPLTMonZvOTW225dT8wnSY22rzY9jM+fGaWqgZghCIhFF6CUqd+urUuVz5gS3nNqeFNDp0meQxqEj+HUSlw8r/+fn/eHgePz8fsdksYS6Xi/B4PITX6yG8Xi/h9XoJj8dDeFwuwrW8TJAkecxX3+/FQP92d2c7ujvb8aijDR0PWnCfrEe9vgbVlWo8bGuGxTQe6xN43Nm+XaVVoVKjxG1VOcoVJSgqzIVUKoFQmApFWTFmJkbO+QTaWxu3CwtyUJAvR17udUilEqSni8Dn83Gey4VMlvVvoMmg3xamCSEUpkIgEOBiQgLOxsaCw+Eg4nQEJFcz9gCrdYptX1lQO+zL6nWHTb31aV39eWtD3dPdsdPSXP9dX1v1Mzv7GlhsFpgEE2GnwsBghCIjQ7wHTFNGXq1OiyqtCto7FVApFSgrLUL+DTkkkkykpKagUqMEjUZDcHAwgoICERh4EmKx6BCo1CihUipQcasUirJiFBXmQibLgkiUhsSkJDQ36NFkuAtDnQ5kYx3Ixjr09nQdAmWlRcjOvgaZLAsSSSbEYhEEAgEuxMeDw+Gg4Z5uZ2ZydHdwoH/INPYqz2ZbjLFYTDF9fX0n/KYpI08ulyKZn4zLiVcQFxeH6OhoREZFgh3OBovNQitpwOCzfsxOGWE1U7sD/U8uHVx7mjLyxGIROGc4YIezwSSYYDBCERIaAjqdDjqdjnp99deh509vmqgReW9vV9Rf75qmjLwkHu+gQKPRDg4VEBAAf39/6Go0bp//njMNc62WSefK4hunc+29c9Nt//Jxw/Ft073mXLUtOhets06rmRr2CexndnaUmJ+huqxmyrG8YPllNo29nrdMlvy3eLjJONftWrWvfVj6PT8zsbv0bu6Hbent0JGB/bzMyTneR5KBR53/A0SneonKm1KCAAAAAElFTkSuQmCC");
+      break;
+      case "auto" :
+      this.icon.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACwElEQVQ4jY3RW0iTcRgG8D9FaIowNfycXaSxxIvyIhOK0plWE2KWqB2NUjG3pVPTiixxZSW1DoJgmckqlCLyNO1z8zSdOmVO3b45XR6+tlrJt6iLrrpIni5MpYuVz/X7/Hh5X0I8xGTSbbJarRTLshTHsRTHcRTHcRTLshRrtVLWkRFKoVCs89Qnj9uM7uLGDyhucqCw0Ym8tx+R/cqBUy9YJD2dQUG9GTpt+3aPQEmD0S1SLeCgagHCZwvYWf0FWytdIHc/gSic2PPQgq53LTs8AgWqYfeWShc2P3KBPPhTLHeClDpAiucRcnPs34C0dshNbjhBFE6QMgfI5XkQ+RyIZAYk0w5SZloC9HoNf8I4JLNMjMgmLSbZ7PtJ2fzslKzi9ch38RM7xNU2hN5hQLJnQaRzIBfmQeQOkHvMEtBJq4WXiuQokEshz82BVJKFzIx0nDyRCrH4MBIOJECiUIKUfAZRLIDc4kAqvoLUza0C+XkSSCVZyDmfgazMM0g/fQzJyUkQiQ4hJjYWpeW3kdvCQNpsRn7HFPI1dtzXjq4CmRnpSEk5guTkJIjFh5GYKEJ8fDx2RUdDIBDg+tWib10drYv1qtoGbVvjcZPJEKHTaSNqamo2kE5aLUxNPYq4/XHYG7MPkZGRCA8PR2hYKPghfATzg1GuuIb657Xo1qih76EXVbXVu1eu3UmrhYmJIgi2CcAP4SOICkJgYAD8A/zB4/HA4/FQcqXQ1fCy7pyWbkmtqlKG/fWuTlotjBUKVwp+fn7w9fWBj89GeHt7w8vLC0UX82we/92rbY7S6zoYo6GPYcyjzLRtwmG3WZzTNjMzbjIwBn03o++hmz0Cy+nubqX6u2ilvoe2GAZ7f/Ro25r6dR1n/1tc3aQ9ymYdnzCPDf8a6NMsDg/2/jQNDzSsGVjOm7S09Uql0net878BWaGbdwSdS90AAAAASUVORK5CYII=");
+      break;
+      case "global" :
+      this.icon.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACk0lEQVQ4jY2RW0hTcRzHfxQ99RodtIeoJx+SICGMgr0UQkEvJkEvhWa5ZV5AQ0bltFB0eQFLXUvXxVFE3qZOt+nWZm1jHnM7x8uuZ2dubpyV1WMPybeHadLDqu/z//Phz+dHlGUsazvA8zwjCAIjSQIjSRIjSRIjCAIj8DzDu92MSqXak42nvglPum44iroREbXDMdx+t47y1yKuvBBw8WkQNUNe2EyTx7IKlHpPukiXwjldCrJnKZzoTeJodwLUFgepYjjV6YNlaiw/q6BG50of7k7gUFcC1LENPoiB7omgughymxf/LpBrP6apKQZSxUCNIuhOBFQVBlUEQaV+UCObETgcMzks61Es+ZYUy8vLikAopIiIoqLpjWezeCCA831ryG3hQOUhkDwMuhUBVYmgdi4jMBsNsuLBCIp0KZwdTOGMJon8xxs42JkAta6DVCKK+1mQcgOkSoEeSqDWz6CB8K7gQn8Ap7VJFPYncfzJRiZWexzUHAMpo5APulA5xkE+6kX19CqqZ/x4ZFrYFZzsWgWp4xmodX03Vn0EVBHEjV7rpmV6fGtIp9WbJoYvs6wzz2Yz5Wk0mn1kNhpkOS086K4IUkZBNWGQPAS67geV+UFlQdQMODD0XIvZGQMcc8Ytnba38Hdts9Ego/tcBioPZkJVRkG1MVB9HNSQwM1XroT+5cA1k3HsUk+P+sgf5zIbDTJqWssADQlQ43aoti+gjq+g7u8oHfGuZL231TRaYLfbOPeCh/PxHLcS8ouBUCCxFg5wrM/LOd1O7r3NMppVsLPZ2XHGbjGqHXNGn3Pe+m3ONDFit01f/Se4+5PJghX+05J30fXTbpnacn2w/mBd8/r/FuzsbUnJXrVavf9/3/8CMPjCugYKVA0AAAAASUVORK5CYII=");
+      break;
+      default:
+      this.icon.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACvElEQVQ4jY3RW0iTARQH8EPRQyoGaX6KvRQ+CClBggoFori8lDHzRloYmqXLayYOr/MyRZcmmKIMNVJ7CEqdOt2mTmc40ZVun6bzMqdO5ZOMnuol+fcwTHpY+X8+/x+Hc4hsRKdTO7Msy5hMJobjTAzHcQzHcYzJZGJMLMuw09OMSCQ6ZatPnR3S/bpaMepqxXhRU4maqjKUiwpQkP8MOVkCVFeWQq0Y8LIJ1NeK97Mz05CVkYqnaSlISU7E/YRY8PkR4PGCkZz0AKrBXm+bgLiieD8hPgbx96IRF3sXfH4EwsJCEBgYiGs+PoiMvPNvoKQwf593kwceLxhBQUHw9fPDFS8veHh4wP2iOyJuh1sBjWbYTaebEczp5wQLCwsC4+qqYN1sFjTUSw6e52YjM0OAqCg+XN1c4cK4wPmCM5ycziM8PNQKKOWygKj2dYR07CG4fQ83Wnfh/WoHLvUWUPUWSGRGYtVbOJ5zhIODA+zt7WBndxahoSHHwK0WI65Ld+HfsourTTu43GAB1W6DyjdBBRtIbxpGaVE+CoW5EBULISoWorFBcgz4vvwCkmxbS9VboIpNULEZlLcOSl3B4+axA9VQ32FXh7Rb0f8+Tqeb8lSrFZ6tra1nSCmXBbhVsaAiM6hgA5S9BkpbBT1aBiUvg5JXkN2mQddrKUaGZdCMyg87pM3+f66tlMsCqMRgLaWsgNLWQOkboJxNUN42SGjBk06tpftN20OFvDe6sVFy6a93KeWyACpbshaEFlDpHqiSA9V8BdV9AzV8R9KH+UWb/x5T9PhMTKgN07MzBj1rMCyuLpuX14y7S2tGg04/b5ianjKMq1U9NoGjjIz0MRMquUQzKtdPfRz7MabsH5xQDyX+t3i8yYDPIvt5bv6T9tfk+PDhrFbzU6ed7D4xcJR3MTGnJRKJ/UnnfwPOTqHPv5QmxQAAAABJRU5ErkJggg==");
+    }
   },
   
   formattiptext: function(){
@@ -513,40 +541,42 @@ window.SmartProxy = {
 		if (evt.target != this.icon) return;
 		if (evt.button == 0){
 			if (this.Prefs.proxyMode == this.mode[0]) {
-				this._ps.setCharPref("proxyMode", this.mode[1]);
-				return;
-			}else if (this.Prefs.proxyMode == this.mode[1]){
-				  this._ps.setCharPref("proxyMode", this.mode[2]);
-				  return;
-				  }else if (this.Prefs.proxyMode == this.mode[2]) {
-						this._ps.setCharPref("proxyMode", this.mode[0]);
-						return;
-						}
-		}/*	else if (evt.button == 2) {
-				 var QW1 = E("sp-mains");
-				 var QW2 = E("SP-splitter");
-				 if (QW1.hidden) {
-					QW1.hidden = QW2.hidden = false;
-					this.Treevisible = true;
-					SmartProxy.FilterView.updateData();
-				} else {
-					QW1.hidden = QW2.hidden = true;
-					this.Treevisible = false;
-					}
-			}*/
+  	    this._ps.setCharPref("proxyMode", this.mode[1]);
+  	    return;
+      }else if (this.Prefs.proxyMode == this.mode[1]){
+    	  this._ps.setCharPref("proxyMode", this.mode[2]);
+    	  return;
+      }else if (this.Prefs.proxyMode == this.mode[2]) {
+    	  this._ps.setCharPref("proxyMode", this.mode[0]);
+    	  return;
+    	}
+		}/*else if (evt.button == 2) {
+			evt.preventDefault();
+			var QW1 = E("sp-mains");
+      var QW2 = E("SP-splitter");
+      if (QW1.hidden) {
+        QW1.hidden = QW2.hidden = false;
+        this.Treevisible = true;
+        //SmartProxy.FilterView.updateData();
+      } else {
+        QW1.hidden = QW2.hidden = true;
+        this.Treevisible = false;
+      }
+		}*/
 	},
 	
 	settings: function(evt) {
+		evt.preventDefault();
 		var QW1 = E("sp-mains");
-		var QW2 = E("SP-splitter");
-		if (QW1.hidden) {
-			QW1.hidden = QW2.hidden = false;
-			this.Treevisible = true;
-			SmartProxy.FilterView.updateData();
-			} else {
-				QW1.hidden = QW2.hidden = true;
-				this.Treevisible = false;
-				}
+  		var QW2 = E("SP-splitter");
+  		if (QW1.hidden) {
+		    QW1.hidden = QW2.hidden = false;
+		    this.Treevisible = true;
+		    //SmartProxy.FilterView.updateData();
+		  } else {
+		    QW1.hidden = QW2.hidden = true;
+		    this.Treevisible = false;
+		  }
 	},
 	
 	showMsg: function(Msg){
@@ -661,7 +691,8 @@ window.SmartProxy = {
 	_getSmartProxyfile : function(afile) {
 		var profileDir = dirService.get("UChrm", Ci.nsIFile);
     var filedir = profileDir.clone().QueryInterface(Ci.nsILocalFile);
-    filedir.appendRelativePath("Local\\SmartProxy");
+    filedir.appendRelativePath("UCProfileDir");
+    filedir.appendRelativePath("SmartProxy");
     if(!filedir.exists()) {
       filedir.create(Ci.nsIFile.DIRECTORY_TYPE, 0700);
     }
@@ -842,7 +873,7 @@ SmartProxy.Proxy = {
     SmartProxy.Proxy.proxyserver = [];
     SmartProxy.Proxy.DirectProxy = null;
     SmartProxy.Proxy.defaultProxy = null;
-    for each (var aproxy in SmartProxy.proxyConfigs) {
+    for (let aproxy of SmartProxy.proxyConfigs) {
       SmartProxy.Proxy.proxyserver.push(ProxySrv.newProxyInfo(aproxy.type, aproxy.host, aproxy.port, 1, 0, null));
     }
     SmartProxy.Proxy.DirectProxy = ProxySrv.newProxyInfo('direct', '', -1, 0, 0, null);
@@ -871,7 +902,7 @@ SmartProxy.Proxy = {
       return SmartProxy.Proxy.defaultProxy;
     }
     if (SmartProxy.Prefs.proxyMode == 'auto')
-      	  SmartProxy.icon.setAttribute("state", "auto");
+      SmartProxy.updateicon(SmartProxy.Prefs.proxyMode);
     var splttag = uri.spec.indexOf("?");
     if (splttag > 20) 
       var match = SPdefaultMatcher.matchesAny(uri.spec.substring(0, splttag), uri.host);
@@ -887,7 +918,7 @@ SmartProxy.Proxy = {
         return SmartProxy.Proxy.DirectProxy;
       else {
       	if (SmartProxy.Prefs.proxyMode == 'auto')
-      	  SmartProxy.icon.setAttribute("state", "auto-on");
+      	  SmartProxy.updateicon("auto-on");
       	return SmartProxy.Proxy.defaultProxy;
       }
     }else{
@@ -1367,9 +1398,9 @@ SmartProxy.FilterView = {
       let stringAtoms = ["col-filter", "col-enabled", "type-filterlist", "type-whitelist"];
       let boolAtoms = ["selected", "dummy", "slow", "disabled"];
       this.atoms = {};
-      for each (let atom in stringAtoms)
+      for (let atom of stringAtoms)
         this.atoms[atom] = atomService.getAtom(atom);
-      for each (let atom in boolAtoms) {
+      for (let atom of boolAtoms) {
         this.atoms[atom + "-true"] = atomService.getAtom(atom + "-true");
         this.atoms[atom + "-false"] = atomService.getAtom(atom + "-false");
       }
@@ -1540,19 +1571,77 @@ SmartProxy.FilterSearch = {
 };
 
 SmartProxy.FilterSearch.fakeBrowser = {
-  fastFind: {
+  finder: {
+    _resultListeners: [],
     searchString: null,
+    caseSensitive: false,
+    lastResult: null,
+
+    _notifyResultListeners: function(result, findBackwards) {
+      this.lastResult = result;
+      for each (let listener in this._resultListeners)
+        listener.onFindResult(result, findBackwards);
+    },
+
+    fastFind: function(searchString, linksOnly, drawOutline) {
+      this.searchString = searchString;
+      let result = SmartProxy.FilterSearch.search(this.searchString, 0,
+                                       this.caseSensitive);
+      this._notifyResultListeners(result, false);
+    },
+
+    findAgain: function(findBackwards, linksOnly, drawOutline) {
+      let result = SmartProxy.FilterSearch.search(this.searchString,
+                                       findBackwards ? -1 : 1,
+                                       this.caseSensitive);
+      this._notifyResultListeners(result, findBackwards);
+    },
+
+    addResultListener: function(listener) {
+      if (this._resultListeners.indexOf(listener) === -1)
+        this._resultListeners.push(listener);
+    },
+
+    removeResultListener: function(listener) {
+      let index = this._resultListeners.indexOf(listener);
+      if (index !== -1)
+        this._resultListeners.splice(index, 1);
+    },
+
+    // Irrelevant for us
+    highlight: function(highlight, word) {},
+    enableSelection: function() {},
+    removeSelection: function() {},
+    focusContent: function() {},
+    keyPress: function() {}
+  },
+  get _lastSearchString() {
+    return this.finder.searchString;
+  },
+  fastFind: {
+    get searchString() {
+      return SmartProxy.FilterSearch.fakeBrowser.finder.searchString;
+    },
+    set searchString(searchString) {
+      SmartProxy.FilterSearch.fakeBrowser.finder.searchString = searchString;
+    },
     foundLink: null,
     foundEditable: null,
-    caseSensitive: false,
+    get caseSensitive() {
+      return SmartProxy.FilterSearch.fakeBrowser.finder.caseSensitive;
+    },
+    set caseSensitive(caseSensitive) {
+      SmartProxy.FilterSearch.fakeBrowser.finder.caseSensitive = caseSensitive;
+    },
     get currentWindow() SmartProxy.FilterSearch.fakeBrowser.contentWindow,
     find: function(searchString, linksOnly) {
-      this.searchString = searchString;
-      return SmartProxy.FilterSearch.search(this.searchString, 0, this.caseSensitive);
+      SmartProxy.FilterSearch.fakeBrowser.finder.fastFind(searchString, linksOnly);
+      return SmartProxy.FilterSearch.fakeBrowser.finder.lastResult;
     },
 
     findAgain: function(findBackwards, linksOnly) {
-      return SmartProxy.FilterSearch.search(this.searchString, findBackwards ? -1 : 1, this.caseSensitive);
+      SmartProxy.FilterSearch.fakeBrowser.finder.findAgain(findBackwards, linksOnly);
+      return SmartProxy.FilterSearch.fakeBrowser.finder.lastResult;
     },
 
     init: function() {},
@@ -1648,11 +1737,17 @@ SPActiveFilter.prototype = {
   domainSource: null,
   domainSeparator: null,
   ignoreTrailingDot: true,
+  domainSourceIsUpperCase: false,
 
   get domains() {
     let domains = null;
     if (this.domainSource) {
-      let list = this.domainSource.split(this.domainSeparator);
+    	let source = this.domainSource;
+      if (!this.domainSourceIsUpperCase) {
+        // RegExpFilter already have uppercase domains
+        source = source.toUpperCase();
+      }
+      let list = source.split(this.domainSeparator);
       if (list.length == 1 && list[0][0] != "~") {
         domains = {__proto__: null, "": false};
         if (this.ignoreTrailingDot)
@@ -1681,7 +1776,7 @@ SPActiveFilter.prototype = {
         }
         domains[""] = !hasIncludes;
       }
-      delete this.domainSource;
+      this.domainSource = null;
     }
 
     this.__defineGetter__("domains", function() domains);
@@ -1716,7 +1811,7 @@ SPActiveFilter.prototype = {
       docDomain = docDomain.replace(/\.+$/, "");
     docDomain = docDomain.toUpperCase();
 
-    for (let domain in this.domains)
+    for (let domain of this.domains)
       if (this.domains[domain] && domain != docDomain && (domain.length <= docDomain.length || domain.indexOf("." + docDomain) != domain.length - docDomain.length - 1))
         return false;
 
@@ -1743,24 +1838,24 @@ function SPRegExpFilter(text, regexpSource, domains) {
 }
 SPRegExpFilter.prototype = {
   __proto__: SPActiveFilter.prototype,
+  domainSourceIsUpperCase: true,
   length: 1,
   domainSeparator: "|",
   regexpSource: null,
   get regexp() {
-    let source = this.regexpSource.replace(/\*+/g, "*");
-    if (source[0] == "*")
-      source = source.substr(1);
-    let pos = source.length - 1;
-    if (pos >= 0 && source[pos] == "*")
-      source = source.substr(0, pos);
-
-    source = source.replace(/\^\|$/, "^")       
-                   .replace(/\W/g, "\\$&")    
-                   .replace(/\\\*/g, ".*")    
-                   .replace(/\\\^/g, "(?:[\\x00-\\x24\\x26-\\x2C\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60\\x7B-\\x80]|$)")
-                   .replace(/^\\\|\\\|/, "^[\\w\\-]+:\\/+(?!\\/)(?:[^.\\/]+\\.)*?") 
-                   .replace(/^\\\|/, "^")       
-                   .replace(/\\\|$/, "$");     
+    let source = this.regexpSource
+                     .replace(/\*+/g, "*")        // remove multiple wildcards
+                     .replace(/\^\|$/, "^")       // remove anchors following separator placeholder
+                     .replace(/\W/g, "\\$&")      // escape special symbols
+                     .replace(/\\\*/g, ".*")      // replace wildcards by .*
+                     // process separator placeholders (all ANSI characters but alphanumeric characters and _%.-)
+                     .replace(/\\\^/g, "(?:[\\x00-\\x24\\x26-\\x2C\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60\\x7B-\\x7F]|$)")
+                     .replace(/^\\\|\\\|/, "^[\\w\\-]+:\\/+(?!\\/)(?:[^\\/]+\\.)?") // process extended anchor at expression start
+                     .replace(/^\\\|/, "^")       // process anchor at expression start
+                     .replace(/\\\|$/, "$")       // process anchor at expression end
+                     .replace(/^(\.\*)/, "")      // remove leading wildcards
+                     .replace(/(\.\*)$/, "");     // remove trailing wildcards
+                     
     let regexp = new RegExp(source, "i");
     delete this.regexpSource;
     this.__defineGetter__("regexp", function() regexp);
@@ -2031,6 +2126,12 @@ let SPdefaultMatcher = new SPCombinedMatcher();
 
 SmartProxy.init();
 window.SmartProxy = SmartProxy;
+function getFoxVer(){
+      var info = Components.classes["@mozilla.org/xre/app-info;1"]
+                 .getService(Components.interfaces.nsIXULAppInfo);
+      var ver = parseInt(info.version.substr(0,3) * 10,10) / 10;
+      return ver;
+}
 function addStyle(css) {
 	var pi = document.createProcessingInstruction(
 		'xml-stylesheet',
@@ -2151,18 +2252,6 @@ function dec2char(n) {
 	  return result;
 }
 })('\
-#SmartProxy-button[state="disabled"] {\
-   list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADL0lEQVQ4jW2Tz0tqeRjGv91VzMD9V27zg1lLAzF0zbFFLbKSmKQibMikk5Z6PCr+yF+hJh1NqJRxFkVCjGQQDCMEbVrEYJxFhLjI1LroUZS47zObIZrufODdvc8DD8/7MvYGvV7/3m63fywWi7/f3t5KFxcXpfn5eXFqampwaGjo67f7r3nH8/zgzc3NVaPReG61Wjg7O0O9XkcgEEA0Gu0Wi8W/lpeXf2CM9X0hNhqNv1SrVbndblMul6NSqYR4PE6FQoFcLhfsdjsdHBzQ5eVlg+O4n/9jMjc396MkSfLz8zN6vR41Gg2q1WrI5/O0ublJbrcbgiCQ3W6nq6srnJ+fP6hUqm8YY4xpNJr3mUzmqtfrodvtotPpoFwu4/j4GDs7OwiFQvB4PHA4HLDZbDg6OkI8Hsfq6mpeoVD0M61W+/H09PRZlmW0Wi1IkoRsNot0Oo1EIoGtrS14vV44nU7YbDY4HA5Uq1Xc39/Ls7Oz37GlpaXfCoUCZbNZHB4eIp1OUzqdpr29PYiiSOFwmHw+H5xOJ1mtVvL7/Wi32+h0OuRwOH5lHMdJqVQK+/v72N3dhSiKSCQSEEUR0WgUwWDwJYLVakUoFIIsy2g2m9je3t5mRqPxb6fTiVwuh0gkglgshlgshnA4jEAgAI/Hg39bwMbGBrxeL+r1OsrlMgKBwDbT6XQiz/PkcrngdruRyWQomUyS3++H2+0ml8tFgiDAYrGQyWQis9mMSCQCm832eWJiYomNjY0Nms3mLs/zCAaDaLVa6PV6kCQJyWQSgiDAarVifX0dJpPpZQwGwye1Wj3ARkZGvlpcXPzTYrEgmUzidZ2Pj49IpVLweDxfGMzMzBwpFIp+xhhjKpXq+5WVlZrFYkGpVCJZlqnZbOLp6YlqtRrd3d1BEATiOI5MJhP0en1ZqVR+eH3KfaOjo0qDwVDleZ4kSaJGo4GHhweqVCqUz+fBcRxxHEd6vb6sUql+Yoy9e/sPfcPDwwM6ne6Pk5OTVqVSoevra/h8PqytrZHBYPik1WqP1Gr1wP+JX1AoFP2Tk5PfLiwsLE5PT/s0Go1vfHxcp1QqP7xkfsU/UuY8xu/805oAAAAASUVORK5CYII=);\
-}\
-#SmartProxy-button[state="auto"] {\
-   list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADaklEQVQ4jW2T608TZhSHX/xEtsR/RTaXfW5wXBQoNkIRaKGFKjcL4ujQrkJvgBSkwKQoA4PKxogM5rLYQOm9tlwKBUWINWPKYB0tl9IbLc3e3z5sIcj2JOfb+T3JyTmHkBMUCqWnxbLuDKvNPrK29t5tsy+usiq7+7K4dcmpqdyPT/Yf59RNaW/y8ptfXb7t/fh+MIxx3Ut4fX7Udpoh1lijVpvDKhTWfk4ISfhPuOSr+6Werb1QKByhj54t0Zcr79HQa6ejk8v0aosRxQoj7RyapvbZlZ36+vrsDyQ5Za3nXrk9oXg8jljskG7v7FOvbxdPtUv0WruNlrdawFOaKE+hpw7XGrSGOe95ZtEnhBBCzhcKT2u+s7lisUMcRGOIRCL4bd2Dxz/NQ/ZgGjc6HahQWVGqNIMrM2BgbAGN963g3RrQMhiMRJJRLMsYmViJh0JhBINBrLjX0TO8gI4ni5D3OyHqnkaVygZBkwVcmQElTUZsev3w/LkVEggEZ0lOzcDw08lV2vvDDAZ+nEfX0BztGFqkqkeLkPY56ZddDlrVZkNJs5lyZAZarbYhFD5AJBKhCoWihuTfHHe3DM6g48ksmh/OQt43DXm/E7Jv53Dr3gyuq+2oUFlRojSDI9XjRtcLBENhBAJBaDQPNIRdP/pa0GzC42cuiL+xQdJjx+0eG+q6HKhR21HZasWVZguKFSbkN+pR0W6Bb3sX79Y9aLur1hBmWXcfV26kV1tMqLxjgPr7Jarod9Kauy9QdsdKS1sslK80oVCqp2zJFGXf1kF8zwK+7Plf2QXCapKaey35smQiWiQ34rrajkDwANHYIZbdHigHnOArTeDIDLjcMIVcie6oWKJxf8rFgiRyNivrI2b1oDlfqofi4RyisUNE/13nzq4fLYMzKG+zIK9B94EgvUQ1xmAwEgkhhKQwyz5jiX72FTTq4VrdpKFQmAYCQezt+anPt03X3m2itGmCXhJP0lyJDtm1w+tprLwzx0854VxOVSarbnyrSD5FX7s36c7OLrxeH/19Y5OOaudxSfyPILt2eD2NyUsnhJw6+Q8JKRd4SRfKNc9HfpkPbmz8QRdevUVt+wTYX2spSzTuT+erxlIu5ib9X/gIBoORmJfH/1RQIarK5ElVqRyp6gt2zZW0TM6Zo5mP8TfXYUsd4nYpCAAAAABJRU5ErkJggg==);\
-}\
-#SmartProxy-button[state="auto-on"] {\
-   list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADaklEQVQ4jW2T608TZhSHX/xEtsR/RTaXfW5wXBQoNkIRaKGFKjcL4ujQrkJvgBSkwKQoA4PKxogM5rLYQOm9tlwKBUWINWPKYB0tl9IbLc3e3z5sIcj2JOfb+T3JyTmHkBMUCqWnxbLuDKvNPrK29t5tsy+usiq7+7K4dcmpqdyPT/Yf59RNaW/y8ptfXb7t/fh+MIxx3Ut4fX7Udpoh1lijVpvDKhTWfk4ISfhPuOSr+6Werb1QKByhj54t0Zcr79HQa6ejk8v0aosRxQoj7RyapvbZlZ36+vrsDyQ5Za3nXrk9oXg8jljskG7v7FOvbxdPtUv0WruNlrdawFOaKE+hpw7XGrSGOe95ZtEnhBBCzhcKT2u+s7lisUMcRGOIRCL4bd2Dxz/NQ/ZgGjc6HahQWVGqNIMrM2BgbAGN963g3RrQMhiMRJJRLMsYmViJh0JhBINBrLjX0TO8gI4ni5D3OyHqnkaVygZBkwVcmQElTUZsev3w/LkVEggEZ0lOzcDw08lV2vvDDAZ+nEfX0BztGFqkqkeLkPY56ZddDlrVZkNJs5lyZAZarbYhFD5AJBKhCoWihuTfHHe3DM6g48ksmh/OQt43DXm/E7Jv53Dr3gyuq+2oUFlRojSDI9XjRtcLBENhBAJBaDQPNIRdP/pa0GzC42cuiL+xQdJjx+0eG+q6HKhR21HZasWVZguKFSbkN+pR0W6Bb3sX79Y9aLur1hBmWXcfV26kV1tMqLxjgPr7Jarod9Kauy9QdsdKS1sslK80oVCqp2zJFGXf1kF8zwK+7Plf2QXCapKaey35smQiWiQ34rrajkDwANHYIZbdHigHnOArTeDIDLjcMIVcie6oWKJxf8rFgiRyNivrI2b1oDlfqofi4RyisUNE/13nzq4fLYMzKG+zIK9B94EgvUQ1xmAwEgkhhKQwyz5jiX72FTTq4VrdpKFQmAYCQezt+anPt03X3m2itGmCXhJP0lyJDtm1w+tprLwzx0854VxOVSarbnyrSD5FX7s36c7OLrxeH/19Y5OOaudxSfyPILt2eD2NyUsnhJw6+Q8JKRd4SRfKNc9HfpkPbmz8QRdevUVt+wTYX2spSzTuT+erxlIu5ib9X/gIBoORmJfH/1RQIarK5ElVqRyp6gt2zZW0TM6Zo5mP8TfXYUsd4nYpCAAAAABJRU5ErkJggg==);\
-}\
-#SmartProxy-button[state="global"] {\
-   list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADZklEQVQ4jW2T20/adxjGv/bKbEn/lbq57Jq4qAVBoa1gRdsq1OpadM4ToOKhLvyqnfFU66jbjZt0mxMPCPwKiFS6zJkGmqbzMM0qB+389SfKuGjS7H12sxjr9kneu/d5kifv8zJ2Cq1Be9bMtRT4F/3f/7a+trn4JLCm44psxbcUOXnlee+f3j/JGWNfY074eTgc20u8FUQBM6EfEd2Ng3NXo99T/8YXWFw2GAwfM8Yy/iOu67+qe5mIpsWDA7KHHtDqi6fo9zaR42c7dSxcQaurhGy+XgquBMXGxsaid0x0XcpPIhuRdDqdRiqVovjeLkXjMUwtT1IPr6cuzzW0uS+Teb6EQs+W4Qw496Ul0g8YY4xJDdKzD/iBcCqVwuHREZLJJDa2NjG5NI4Bfws4Xw26+Qq0uctgXtBgIngfAx4jPh8pc0skkkxW0lJQMP3LxFtRFCEIAiJrz/D14y/xVciK4aAJd/y30M3r0O4ph3lBA8tCKf5I7ODlzk5ar9dns+oRld2xMknf+AcxsXQftsAdsoWsNBbqxmCwmTjfp3Sb18HiLiXTgpqsfBXEgwMkk0myWCx1rP67S5tj/g7YFq0YDVgw6DdhOGjC0JIRfYufweq9gW6+Au0eLUxONbhHNXgtvsa+IGBwaGiU1U6oXlhcZbA/HkcvX4+73gbc5RvB+W7C6q1CF18Ji6ccbe4SmOYvosdTgVgijo2tTXC93Cir5OQ2s0tNHa4r6HRWYvwJR8NBE33xqAqd/FXq9Gip3V0Ko7OYmuZU1DKrRJ+nHuapy3+rq4pqmUKfl9M8c+FNq0sDq/cGBFHEUSqF8EYEI8FWtLtLYXaqYZy7gKZZ5fEY7IpDWXFuFstWZL9Xda8gaJq/iHtLZhylUjj695yJvV2M+Ttw23MNxlnVOwbaLum0RCLJZIwxJivP/ajuoVwwzV/C6voqiaJI+4KAvVevKBaP09rv62hzaKlhppCaZpWoGZdF5Sr5uZNVzpBV5MkNk4o/zXNqCm9EKLG7i2gsRlvbWzS19BANjkJqmCmkmnFZNL84/zxj7Mzpf8jILc7NquiTun4IfPvX1vY2rUR+RY+jGk0/KclgVxxqu6TTMqUs6//Ex0gkkkxNmeZDfW3lTW2zvFfTfL5XdT3/er4q/9xx5hP8A1Z5N8OK/qTbAAAAAElFTkSuQmCC);\
-}\
 textbox.proxyName{ width: 60px; } .proxyHost{ width: 80px; } .proxyPort{ width: 40px; } radiogroup > .proxyHttp{ margin-left: 10px; } radiogroup > .proxySocks4, radiogroup > .proxySocks5{ margin-left: 21px;} .selBox{ margin-left: 10px; }\
 #sp-contents {list-style-image: none; font-size: 14px; padding: 0; margin: 0; }\
 .actionbtn { list-style-image: none; color: #484; font-size: 14px; }\
