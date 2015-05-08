@@ -1,0 +1,55 @@
+<UserScriptConfig>
+	<Script basedir="Google_Real_Link" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="Disable the Google search rewrite, always showing and using the real, original, direct link URLs, to stop being tracked, also to prevent from using redirected pages that might be temporarily unavailable in some area. See: http://userscripts.org/scripts/show/125473" enabled="true" noframes="false" filename="125473.user.js" installTime="1395021716900" modified="1395021716900" name="Google Real Link" namespace="http://userscripts.org/scripts/show/125473" runAt="document-end" updateMetaStatus="unknown" uuid="8d3441af-7ead-47be-a14e-c16a7cb59cd1" version="1.1" installurl="https://userscripts.org/scripts/source/125473.user.js" updateurl="https://userscripts.org/scripts/source/125473.meta.js">
+		<Grant>unsafeWindow</Grant>
+		<Include>http://www.google.*/*</Include>
+		<Include>https://www.google.*/*</Include>
+		<Include>https://encrypted.google.*/*</Include>
+	</Script>
+	<Script basedir="眼不见心不烦（新浪微博）" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="新浪微博（weibo.com）非官方功能增强脚本，具有屏蔽关键词、用户、来源、链接，改造版面等功能" enabled="true" noframes="false" filename="weiboCleaner-v2.1.user.js" installTime="1415000135312" modified="1415000135312" name="眼不见心不烦（新浪微博）" namespace="http://weibo.com/salviati" runAt="document-end" updateMetaStatus="fail" uuid="77bef7e0-1c57-4314-b9c1-d5e0c5d20163" version="2.1" installurl="https://bitbucket.org/salviati/weibo-cleaner/downloads/weiboCleaner-v2.1.user.js" updateurl="https://bitbucket.org/salviati/weibo-cleaner/downloads/weiboCleaner-v2.1.user.js">
+		<Grant>GM_getValue</Grant>
+		<Grant>GM_setValue</Grant>
+		<Include>http://weibo.com/*</Include>
+		<Include>http://www.weibo.com/*</Include>
+		<Include>http://d.weibo.com/*</Include>
+	</Script>
+	<Script basedir="delQDLimit" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="" enabled="true" noframes="false" filename="122385.user.js" installTime="1395723341810" modified="1395723514419" name="delQDLimit" namespace="perzer@163.com" runAt="document-end" updateMetaStatus="unknown" uuid="ad05a8cf-102c-4cb8-8e40-d314eefff3b9" version="1.1" installurl="https://userscripts.org/scripts/source/122385.user.js" updateurl="https://userscripts.org/scripts/source/122385.user.js">
+		<Grant>none</Grant>
+		<Include>http://www.qidian.com/BookReader/*.aspx</Include>
+		<Include>http://vipreader.qidian.com/BookReader/*.aspx</Include>
+		<Include>http://vipreader.qidian.com/BookReader/Tips/*</Include>
+		<Include>http://read.qidian.com/BookReader/*.aspx</Include>
+		<Include>http://readbook.qidian.com/bookreader/*.html</Include>
+	</Script>
+	<Script basedir="qdOLScore" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="" enabled="true" noframes="false" filename="159572.user.js" installTime="1421735806625" modified="1421735806625" name="qdOLScore" namespace="org.perzer.qdOLScore" runAt="document-end" updateMetaStatus="fail" uuid="81bedb13-1a2b-44a3-9c55-b8bf304c2417" version="1" installurl="http://userscripts-mirror.org/scripts/source/159572.user.js" updateurl="http://userscripts-mirror.org/scripts/source/159572.user.js">
+		<Grant>none</Grant>
+		<Include>http://me.qidian.com/profile/score.aspx</Include>
+	</Script>
+	<Script basedir="delCSLimit" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="del chuangshi.com limit" enabled="false" noframes="false" filename="252130.user.js" installTime="1421735826078" modified="1421735826078" name="delCSLimit" namespace="perzer.com" runAt="document-end" updateMetaStatus="fail" uuid="c7e0d0d5-1fb2-4805-b291-4243f5d46895" version="1" installurl="http://userscripts-mirror.org/scripts/source/252130.user.js" updateurl="http://userscripts-mirror.org/scripts/source/252130.user.js">
+		<Grant>none</Grant>
+		<Include>http://chuangshi.qq.com/read/bk/ds/*.html</Include>
+		<Include>http://chuangshi.qq.com/read/bk/js/*.html</Include>
+		<Include>http://chuangshi.qq.com/read/bk/ls/*.html</Include>
+	</Script>
+	<Script basedir="picViewer" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="围观图（support （opera，firefox（GreaseMonkey），chrome） Latest Stable，IE9+）" enabled="true" noframes="false" filename="105741.user.js" installTime="1398401231718" modified="1399280322704" name="picViewer" namespace="http://userscripts.org/users/NLF" runAt="document-start" updateMetaStatus="unknown" uuid="6045f858-e281-48f9-a95d-824997b2ad89" version="4.2.6.1" installurl="https://userscripts.org/scripts/source/105741.user.js" updateurl="https://userscripts.org/scripts/source/105741.meta.js">
+		<Grant>GM_getValue</Grant>
+		<Grant>GM_setValue</Grant>
+		<Include>*</Include>
+		<Match>*://*/*</Match>
+	</Script>
+	<Script basedir="Google_Translate_Tooltip" checkRemoteUpdates="1" dependhash="e35578d531250ec308d3e8c97bba50193db849a9" description="Translates selected text into a tooltip." enabled="true" noframes="false" filename="402503.user.js" installTime="1409642048328" modified="1409642048328" name="Google Translate Tooltip" namespace="steely.wing" runAt="document-end" updateMetaStatus="fail" uuid="e4a6601d-ead2-4010-b9f2-b27e4fbcf346" version="1.8" installurl="http://userscripts-mirror.org/scripts/source/402503.user.js" updateurl="http://userscripts-mirror.org/scripts/source/402503.user.js">
+		<Grant>GM_getValue</Grant>
+		<Grant>GM_setValue</Grant>
+		<Grant>GM_xmlhttpRequest</Grant>
+		<Include>*</Include>
+		<Require filename="jquery-2.1.0.min.js"/>
+	</Script>
+	<Script basedir="wikiRedirectZHCN" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="redirect to zh-CN pages" enabled="true" noframes="false" filename="wikiRedirectZHCN.user.js" installTime="1430286095406" modified="1430986076171" name="wikiRedirectZHCN" namespace="wikiRedirectZHCN" runAt="document-end" updateMetaStatus="unknown" uuid="b3be033f-0469-4c4c-b738-6b47791db279" version="1" installurl="file:///E:/data/private/firefox/perzpy.profile/gm_scripts/wikiRedirectZHCN/wikiRedirectZHCN.user.js" updateurl="file:///E:/data/private/firefox/perzpy.profile/gm_scripts/wikiRedirectZHCN/wikiRedirectZHCN.user.js">
+		<Grant>GM_setValue</Grant>
+		<Include>http://zh.wikipedia.org/zh/*</Include>
+		<Include>http://zh.wikipedia.org/wiki/*</Include>
+	</Script>
+	<Script basedir="004.ForceMyFonts.Chinese.FireFoxChromeIE.catcat520" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="功能简介：自定义字体，英文Tahoma，中文雅黑。修正乱码，网页错位" enabled="true" noframes="false" filename="004.ForceMyFonts.Chinese.FireFoxChromeIE.catcat520.user.js" installTime="1430388143031" modified="1430388143031" name="004.ForceMyFonts.Chinese.FireFoxChromeIE.catcat520" namespace="http://userstyles.org" runAt="document-start" updateMetaStatus="ok" uuid="b2a86feb-33d5-415d-8983-062d1120c01e" version="0.20150418025352" installurl="https://userstyles.org/styles/userjs/100473/004.ForceMyFonts.Chinese.FireFoxChromeIE.catcat520.user.js?ik-NetCore=ik-FireFox&amp;ik-SwitchAGENT_SHEET=ik-y&amp;ik-CoveRage=ik-ALLcoverage&amp;ik-ForceALL=ik-JALL1&amp;ik-English%20font=ik-16&amp;ik-Chinese%20font=ik-1&amp;ik-Catcat520LiteLatin=ik-UnSetup&amp;ik-Force-moz-selection=ik-default&amp;ik-Force-Text-Shadow=ik-default&amp;ik-DiyMyEnFonts=%E5%9C%A8%E8%BF%99%E5%A1%AB%E5%86%99&amp;ik-DiyMyCnFonts=%E5%9C%A8%E8%BF%99%E5%A1%AB%E5%86%99&amp;ik-Diy-moz-selection-A=%233399FF&amp;ik-Diy-moz-selection-B=%23FFFFFF&amp;ik-DiyText-H-Shadow=0.02&amp;ik-DiyText-V-Shadow=0.02&amp;ik-DiyTextShadowBlur=0.05&amp;ik-DiyTextShadowColor=%23999999&amp;.user.js" updateurl="https://userstyles.org/styles/userjs/100473/004.ForceMyFonts.Chinese.FireFoxChromeIE.catcat520.user.js?ik-NetCore=ik-FireFox&amp;ik-SwitchAGENT_SHEET=ik-y&amp;ik-CoveRage=ik-ALLcoverage&amp;ik-ForceALL=ik-JALL1&amp;ik-English%20font=ik-16&amp;ik-Chinese%20font=ik-1&amp;ik-Catcat520LiteLatin=ik-UnSetup&amp;ik-Force-moz-selection=ik-default&amp;ik-Force-Text-Shadow=ik-default&amp;ik-DiyMyEnFonts=%E5%9C%A8%E8%BF%99%E5%A1%AB%E5%86%99&amp;ik-DiyMyCnFonts=%E5%9C%A8%E8%BF%99%E5%A1%AB%E5%86%99&amp;ik-Diy-moz-selection-A=%233399FF&amp;ik-Diy-moz-selection-B=%23FFFFFF&amp;ik-DiyText-H-Shadow=0.02&amp;ik-DiyText-V-Shadow=0.02&amp;ik-DiyTextShadowBlur=0.05&amp;ik-DiyTextShadowColor=%23999999&amp;.user.js">
+		<Grant>none</Grant>
+		<Include>*</Include>
+	</Script>
+</UserScriptConfig>
