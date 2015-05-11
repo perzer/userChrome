@@ -43,7 +43,7 @@
 		<Include>*</Include>
 		<Require filename="jquery-2.1.0.min.js"/>
 	</Script>
-	<Script basedir="wikiRedirectZHCN" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="redirect to zh-CN pages" enabled="true" noframes="false" filename="wikiRedirectZHCN.user.js" installTime="1430286095406" modified="1430986076171" name="wikiRedirectZHCN" namespace="wikiRedirectZHCN" runAt="document-end" updateMetaStatus="unknown" uuid="b3be033f-0469-4c4c-b738-6b47791db279" version="1" installurl="file:///E:/data/private/firefox/perzpy.profile/gm_scripts/wikiRedirectZHCN/wikiRedirectZHCN.user.js" updateurl="file:///E:/data/private/firefox/perzpy.profile/gm_scripts/wikiRedirectZHCN/wikiRedirectZHCN.user.js">
+	<Script basedir="wikiRedirectZHCN" checkRemoteUpdates="1" dependhash="da39a3ee5e6b4b0d3255bfef95601890afd80709" description="redirect to zh-CN pages" enabled="true" noframes="false" filename="wikiRedirectZHCN.user.js" installTime="1430286095406" modified="1430986076171" name="wikiRedirectZHCN" namespace="wikiRedirectZHCN" runAt="document-end" updateMetaStatus="unknown" uuid="b3be033f-0469-4c4c-b738-6b47791db279" version="1">
 		<Grant>GM_setValue</Grant>
 		<Include>http://zh.wikipedia.org/zh/*</Include>
 		<Include>http://zh.wikipedia.org/wiki/*</Include>
